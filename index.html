@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DonutUTILITY | Open Source 1.21 Client</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=JetBrains+Mono&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0b0a0d;
+            --accent: #9d4edd;
+            --card-bg: #16151a;
+            --text-main: #ffffff;
+            --text-muted: #a0a0a0;
+            --border: rgba(255, 255, 255, 0.05);
+            --safe: #2ecc71;
+            --risk: #f1c40f;
+            --unsafe: #e74c3c;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; scroll-behavior: smooth; }
+        body { background: var(--bg); color: var(--text-main); font-family: 'Inter', sans-serif; line-height: 1.6; overflow-x: hidden; }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        header {
+            display: flex; justify-content: center; align-items: center;
+            padding: 25px 5vw; background: rgba(11, 10, 13, 0.8); backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 1000;
+        }
+        .logo { display: flex; align-items: center; gap: 12px; font-weight: 800; font-size: 1.2rem; text-transform: uppercase; letter-spacing: 2px; }
+        .logo-icon { width: 30px; height: 30px; background: linear-gradient(45deg, var(--accent), #5a189a); border-radius: 50%; box-shadow: 0 0 20px rgba(157, 78, 221, 0.5); }
+
+        .hero { padding: 80px 5vw; text-align: center; background: radial-gradient(circle at center, rgba(157, 78, 221, 0.12) 0%, transparent 70%); }
+        .hero h1 { font-size: clamp(2.5rem, 8vw, 4.5rem); font-weight: 800; line-height: 1.1; margin-bottom: 20px; animation: fadeInUp 0.8s ease-out; }
+        
+        .oss-badge { display: inline-block; padding: 6px 15px; background: rgba(46, 204, 113, 0.1); border: 1px solid var(--safe); color: var(--safe); border-radius: 50px; font-size: 0.8rem; font-weight: 700; margin-bottom: 20px; }
+
+        .btn-primary { 
+            background: var(--accent); color: white; padding: 18px 50px; border-radius: 50px; 
+            text-decoration: none; font-weight: 700; display: inline-block; transition: 0.4s; 
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .btn-primary:hover { transform: scale(1.03); box-shadow: 0 10px 25px rgba(157, 78, 221, 0.3); }
+
+        .container { padding: 40px 5vw; max-width: 900px; margin: 0 auto; }
+        
+        /* THE FADE TAB SYSTEM */
+        .tabs-container {
+            display: flex; justify-content: center; margin-bottom: 40px;
+            background: rgba(255, 255, 255, 0.03);
+            padding: 6px; border-radius: 100px; border: 1px solid var(--border);
+            width: fit-content; margin: 0 auto 40px auto;
+        }
+        .tab-btn { 
+            background: transparent; border: none; color: var(--text-muted); 
+            font-size: 0.9rem; font-weight: 700; padding: 10px 22px; 
+            cursor: pointer; position: relative; transition: 0.4s;
+            border-radius: 100px; overflow: hidden;
+        }
+        .tab-btn.active { color: #fff; background: rgba(157, 78, 221, 0.2); }
+        .tab-btn.active::before {
+            content: ''; position: absolute; inset: 0;
+            background: linear-gradient(90deg, transparent, rgba(157, 78, 221, 0.2), transparent);
+            animation: slideFade 2s infinite;
+        }
+
+        @keyframes slideFade {
+            0% { transform: translateX(-100%); opacity: 0; }
+            50% { opacity: 1; }
+            100% { transform: translateX(100%); opacity: 0; }
+        }
+
+        .feature-list { display: none; flex-direction: column; gap: 12px; }
+        .feature-list.active { display: flex; }
+
+        .card { 
+            background: var(--card-bg); border-radius: 18px; padding: 22px; border: 1px solid var(--border);
+            display: flex; flex-direction: column; gap: 8px; transition: 0.3s;
+            animation: fadeInUp 0.5s ease-out both;
+        }
+        .card:hover { border-color: var(--accent); transform: translateX(5px); }
+        
+        .card-top { display: flex; justify-content: space-between; align-items: center; }
+        .card h3 { font-size: 1.1rem; font-weight: 700; }
+        .badge { font-size: 0.6rem; font-weight: 800; padding: 4px 10px; border-radius: 6px; text-transform: uppercase; }
+        .badge.safe { color: var(--safe); background: rgba(46, 204, 113, 0.1); }
+        .badge.risk { color: var(--risk); background: rgba(241, 196, 15, 0.1); }
+        .badge.unsafe { color: var(--unsafe); background: rgba(231, 76, 60, 0.1); }
+        .card p { color: var(--text-muted); font-size: 0.9rem; }
+
+        footer { padding: 60px 5vw; text-align: center; border-top: 1px solid var(--border); opacity: 0.6; font-size: 0.8rem; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo"><div class="logo-icon"></div> DONUTUTILITY</div>
+    </header>
+
+    <section class="hero">
+        <div class="oss-badge">COMPLETELY OPEN SOURCE</div>
+        <p style="color: var(--accent); font-weight: 700; letter-spacing: 2px; margin-bottom: 10px;">VERSION 1.21 - 1.21.1</p>
+        <h1>Maximum Power.<br>Zero Bloat.</h1>
+        <p style="color: var(--text-muted); margin: 20px 0 30px; max-width: 600px; margin-left: auto; margin-right: auto;">The definitive utility enhancement for Donut SMP. Optimized for the latest Grim AC updates.</p>
+        <a href="#" class="btn-primary" onclick="handleDownload(event)">Download .JAR</a>
+    </section>
+
+    <main class="container">
+        <div class="tabs-container">
+            <button class="tab-btn active" onclick="switchTab(event, 'combat')">Combat</button>
+            <button class="tab-btn" onclick="switchTab(event, 'visual')">Visuals</button>
+            <button class="tab-btn" onclick="switchTab(event, 'world')">World</button>
+            <button class="tab-btn" onclick="switchTab(event, 'misc')">Misc</button>
+        </div>
+
+        <div id="combat" class="feature-list active">
+            <div class="card">
+                <div class="card-top"><h3>Anchor Macro</h3> <span class="badge unsafe">Unsafe</span></div>
+                <p>Frame-perfect anchor placement and detonation for instant kills.</p>
+            </div>
+            <div class="card">
+                <div class="card-top"><h3>Legit Anchor Macro</h3> <span class="badge safe">Safe</span></div>
+                <p>Charges and explodes anchors with human-like delays to bypass staff review.</p>
+            </div>
+            <div class="card">
+                <div class="card-top"><h3>Stun Mace</h3> <span class="badge risk">Risk</span></div>
+                <p>Auto-swaps axe and mace in the same tick for maximum stun damage.</p>
+            </div>
+            <div class="card">
+                <div class="card-top"><h3>Quick Shield Breaker</h3> <span class="badge risk">Risk</span></div>
+                <p>Axe swap + attack synchronization for Grim AC v3.</p>
+            </div>
+            <div class="card">
+                <div class="card-top"><h3>Auto Inv Totem</h3> <span class="badge risk">Risk</span></div>
+                <p>Instantly pulls totems from inventory to offhand after a pop.</p>
+            </div>
+            <div class="card">
+                <div class="card-top"><h3>Aim Assist</h3> <span class="badge risk">Risk</span></div>
+                <p>Subtle crosshair correction to land hits without looking blatant.</p>
+            </div>
+            <div class="card">
+                <div class="card-top"><h3>Anti Trap</h3> <span class="badge risk">Risk</span></div>
+                <p>Automated escape from armor stand and minecart traps.</p>
+            </div>
+        </div>
+
+        <div id="visual" class="feature-list">
+            <div class="card">
+                <div class="card-top"><h3>Deepslate ESP</h3> <span class="badge safe">Safe</span></div>
+                <p>Highlights all deepslate ores and containers through terrain.</p>
+            </div>
+            <div class="card">
+                <div class="card-top"><h3>Piston ESP</h3> <span class="badge safe">Safe</span></div>
+                <p>Find hidden base mechanisms by highlighting piston blocks.</p>
+            </div>
+            <div class="card">
+                <div class="card-top"><h3>Pillager ESP</h3> <span class="badge safe">Safe</span></div>
+                <p>Highlights pillagers with tracers and Discord webhook support.</p>
+            </div>
+            <div class="card">
+                <div class="card-top"><h3>Fake Scoreboard</h3> <span class="badge safe">Safe</span></div>
+                <p>Customizable minimal HUD that replaces the server scoreboard.</p>
+            </div>
+            <div class="card">
+                <div class="card-top"><h3>Drowned Trident ESP</h3> <span class="badge safe">Safe</span></div>
+                <p>Specifically targets drowned mobs holding tridents.</p>
+            </div>
+        </div>
+
+        <div id="world" class="feature-list">
+            <div class="card">
+                <div class="card-top"><h3>RTPer</h3> <span class="badge safe">Safe</span></div>
+                <p>Find biomes or unclaimed land via automated random teleportation.</p>
+            </div>
+            <div class="card">
+                <div class="card-top"><h3>RTP Base Finder</h3> <span class="badge unsafe">Unsafe</span></div>
+                <p>Mines to bedrock then runs /rtp east to find underground bases.</p>
+            </div>
+            <div class="card">
+                <div class="card-top"><h3>Elytra Swap</h3> <span class="badge risk">Risk</span></div>
+                <p>One-tap hotkey to swap between Chestplate and Elytra.</p>
+            </div>
+            <div class="card">
+                <div class="card-top"><h3>No Block Interact</h3> <span class="badge safe">Safe</span></div>
+                <p>Allows pearling through chests/furnaces without opening the menu.</p>
+            </div>
+        </div>
+
+        <div id="misc" class="feature-list">
+            <div class="card">
+                <div class="card-top"><h3>Order Sniper</h3> <span class="badge safe">Safe</span></div>
+                <p>Automatically buys market items that drop below your set price.</p>
+            </div>
+            <div class="card">
+                <div class="card-top"><h3>Shop Buyer</h3> <span class="badge safe">Safe</span></div>
+                <p>Bulk-buy items from chest shops with a single macro.</p>
+            </div>
+            <div class="card">
+                <div class="card-top"><h3>Home Reset</h3> <span class="badge safe">Safe</span></div>
+                <p>Macro to delete and instantly reset a home at your current spot.</p>
+            </div>
+            <div class="card">
+                <div class="card-top"><h3>Spawner Dropper</h3> <span class="badge safe">Safe</span></div>
+                <p>Automatically processes and drops all spawner loot.</p>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 DonutUTILITY Client. Fully community driven and open source.</p>
+    </footer>
+
+    <script>
+        function switchTab(evt, tabName) {
+            let i, lists, btns;
+            lists = document.getElementsByClassName("feature-list");
+            for (i = 0; i < lists.length; i++) lists[i].classList.remove("active");
+            
+            btns = document.getElementsByClassName("tab-btn");
+            for (i = 0; i < btns.length; i++) btns[i].classList.remove("active");
+            
+            document.getElementById(tabName).classList.add("active");
+            evt.currentTarget.classList.add("active");
+        }
+
+        function handleDownload(event) {
+            event.preventDefault();
+            window.location.href = "https://www.mediafire.com/file/0of9r6b1mle8su5/DonutUtilitys-1.2.0.jar/file";
+        }
+    </script>
+</body>
+</html>
